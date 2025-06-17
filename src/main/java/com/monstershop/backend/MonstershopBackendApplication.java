@@ -1,4 +1,4 @@
-package com.monstershop.monstershop.backend;
+package com.monstershop.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
