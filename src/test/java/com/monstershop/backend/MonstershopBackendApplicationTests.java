@@ -1,4 +1,4 @@
-package com.monsreshop.monstershop_backend;
+package com.monstershop.monstershop.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
