@@ -2,7 +2,7 @@ package com.monstershop.backend.controllers;
 
 import com.monstershop.backend.dtos.product.ProductRequest;
 import com.monstershop.backend.dtos.product.ProductResponse;
-import com.monstershop.backend.mappers.ProductMapper;
+import com.monstershop.backend.dtos.product.ProductMapper;
 import com.monstershop.backend.models.Product;
 import com.monstershop.backend.services.ProductService;
 import org.springframework.web.bind.annotation.*;
