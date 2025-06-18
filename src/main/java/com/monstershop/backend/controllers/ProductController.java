@@ -1,10 +1,14 @@
 package com.monstershop.backend.controllers;
 
+import com.monstershop.backend.dtos.product.ProductRequest;
+import com.monstershop.backend.dtos.product.ProductResponse;
+import com.monstershop.backend.mappers.ProductMapper;
 import com.monstershop.backend.models.Product;
 import com.monstershop.backend.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
@@ -15,25 +19,30 @@ public class ProductController {
     public ProductController(ProductService service) {
         this.service = service;
     }
+
     @GetMapping
-    public List<Product> getAll() {
-        return service.getAll();
+    public List<ProductResponse> getAll() {
+        return service.getAll().stream()
+                .map(ProductMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ProductResponse getById(@PathVariable Long id) {
+        return ProductMapper.toDto(service.getById(id));
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
-        return service.save(product);
+    public ProductResponse create(@RequestBody ProductRequest request) {
+        Product product = ProductMapper.toEntity(request);
+        return ProductMapper.toDto(service.save(product));
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody Product product) {
+    public ProductResponse update(@PathVariable Long id, @RequestBody ProductRequest request) {
+        Product product = ProductMapper.toEntity(request);
         product.setId(id);
-        return service.save(product);
+        return ProductMapper.toDto(service.save(product));
     }
 
     @DeleteMapping("/{id}")
