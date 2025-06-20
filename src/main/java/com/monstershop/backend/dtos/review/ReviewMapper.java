@@ -7,13 +7,13 @@ import com.monstershop.backend.models.Review;
 
 public class ReviewMapper {
 
-    public static Review toEntity(ReviewRequest dto, Product product) {
+    public static Review toEntity(ReviewRequest dto) {
         Review review = new Review();
         review.setUsername(dto.getUsername());
         review.setRating(dto.getRating());
         review.setBody(dto.getBody());
-        review.setProduct(product);
         return review;
+
     }
 
     public static ReviewResponse toDto(Review review) {

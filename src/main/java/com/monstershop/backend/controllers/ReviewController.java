@@ -29,8 +29,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ReviewResponse createReview(@RequestParam Long productId, @RequestBody ReviewRequest request) {
-        Review review = reviewService.createReview(productId, ReviewMapper.toEntity(request, null));
+    public ReviewResponse createReview(@RequestBody ReviewRequest request) {
+        Review review = reviewService.createReview(request);
         return ReviewMapper.toDto(review);
     }
 }
