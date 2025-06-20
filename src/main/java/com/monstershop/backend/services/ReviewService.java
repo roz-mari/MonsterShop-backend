@@ -1,5 +1,7 @@
 package com.monstershop.backend.services;
 
+import com.monstershop.backend.dtos.review.ReviewMapper;
+import com.monstershop.backend.dtos.review.ReviewRequest;
 import com.monstershop.backend.models.Product;
 import com.monstershop.backend.models.Review;
 import com.monstershop.backend.repositories.ProductRepository;
@@ -23,25 +25,30 @@ public class ReviewService {
         return reviewRepository.findByProductId(productId);
     }
 
-    public Review createReview(Long productId, Review review) {
+    public Review createReview(ReviewRequest reviewRequest) {
+       Long productId = reviewRequest.getProductId();
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        Review review = ReviewMapper.toEntity(reviewRequest);
         review.setProduct(product);
         Review savedReview = reviewRepository.save(review);
 
+       // updateProductRating(product); // обновляем рейтинг продукта
 
-        List<Review> reviews = reviewRepository.findByProductId(productId);
-        int count = reviews.size();
-        double averageRating = reviews.stream()
+        return savedReview;
+    }
+
+    private void updateProductRating(Product product) {
+        List<Review> reviews = reviewRepository.findByProductId(product.getId());
+
+        double average = reviews.stream()
                 .mapToDouble(Review::getRating)
                 .average()
                 .orElse(0.0);
 
-        product.setReviewCount(count);
-        product.setRating(averageRating);
+        product.setRating(average);
+        product.setReviewCount(reviews.size());
         productRepository.save(product);
-
-        return savedReview;
     }
 }

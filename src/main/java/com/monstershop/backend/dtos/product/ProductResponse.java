@@ -24,7 +24,7 @@ public class ProductResponse {
     public String getName() { return name; }
     public double getPrice() { return price; }
     public String getImageUrl() { return imageUrl; }
-    public double getRating() { return rating; }
+    public double getRating() { return Math.round(rating * 10.0) / 10.0;}
     public int getReviewCount() { return reviewCount; }
     public boolean isFeatured() { return featured; }
 }
